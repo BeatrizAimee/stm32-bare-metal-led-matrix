@@ -1,0 +1,7 @@
+set architecture armv7e-m
+layout src
+layout reg
+focus cmd
+target remote :2331
+mon endian little
+mon halt
