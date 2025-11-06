@@ -12,6 +12,9 @@ MEMORY
             SRAM2(rwx): ORIGIN = 0x10000000, LENGTH = 32K
         }
 
+
+_stack = ORIGIN(SRAM2) + LENGTH(SRAM2) ;
+
 /*Each .o has the same sections as the executable (each has one .text, .data, etc) and the linker 
 "connects" them in the executable in SECTIONS*/
 

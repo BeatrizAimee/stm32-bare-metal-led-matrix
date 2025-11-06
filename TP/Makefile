@@ -4,8 +4,8 @@ CC        = $(PREFIX)gcc # Compiler
 AS        = $(PREFIX)as # Assembler
 GDB       = gdb-multiarch # Debugger
 
-ASFLAGS   = -g # Assembler flags
-CFLAGS    = -c -g -O1 -ffreestanding -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 # Compiler flags
+ASFLAGS   = -g -mcpu=cortex-m4 -mthumb # Assembler flags
+CFLAGS    = -g -O1 -ffreestanding -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 # Compiler flags
 LDFLAGS   = -nostdlib -T ld_ram.lds # Linker flags
 
 # Finds all source files in the current directory

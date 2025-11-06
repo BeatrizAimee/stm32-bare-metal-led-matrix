@@ -3,7 +3,7 @@
     .thumb
 
     _start:
-        ldr sp, =0x20018000 @ Initialize stack pointer --> tells where the stack starts
+        ldr sp, =_stack @ Initialize stack pointer --> tells where the stack starts
         bl init_bss @ Call bss initialization
         bl main @ Call main
         bl _exit @ Call exit
