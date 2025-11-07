@@ -4,8 +4,12 @@ CC        = $(PREFIX)gcc # Compiler
 AS        = $(PREFIX)as # Assembler
 GDB       = gdb-multiarch # Debugger
 
+CMSIS_DEV = CMSIS/Device/ST/STM32L4xx/Include
+CMSIS_INC = CMSIS/Include
+
 ASFLAGS   = -g -mcpu=cortex-m4 -mthumb # Assembler flags
-CFLAGS    = -g -O1 -ffreestanding -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 # Compiler flags
+CFLAGS    = -g -O1 -ffreestanding -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 \
+			-I$(CMSIS_DEV) -I$(CMSIS_INC) # Compiler flags
 LDFLAGS   = -nostdlib -T ld_ram.lds # Linker flags
 
 # Finds all source files in the current directory
@@ -14,6 +18,7 @@ SOURCES_S = $(wildcard *.s) # Assembly source files
 
 # Convert source files to object files
 OBJS	  = $(SOURCES_C:.c=.o) $(SOURCES_S:.s=.o) # Object files
+CLOCKS_OBJ = clocks.o
 
 OUTPUT    = main.elf
 
@@ -22,7 +27,7 @@ all: $(OUTPUT)
 
 # Compile the files building the output
 $(OUTPUT): $(OBJS) #Output depends on object files
-	$(CC) $(LDFLAGS) $(OBJS) -o $@
+	$(CC) $(LDFLAGS) $(OBJS) $(CLOCKS_OBJ) -o $@
 
 # Starts the J-Link GDB server
 connect:
@@ -34,6 +39,6 @@ startgdbserver: $(OUTPUT) #the action depends on the executable
 
 #Removes object files and the output
 clean:
-	rm -f $(OBJS) $(OUTPUT)
+	rm -f $(filter-out $(CLOCKS_OBJ), $(OBJS)) $(OUTPUT)
 
 	 
