@@ -20,6 +20,10 @@ _stack = ORIGIN(SRAM2) + LENGTH(SRAM2) ;
 
 SECTIONS
         {
+            /* Interrupt vector table */
+            .isr_vector : {
+                KEEP(*(.isr_vector)) /* KEEP tells the linker to keep the section even if it seems unused */
+            } > SRAM1
             /* Program code */
             .text : {
                 *(.text*)  /*taking all .text from the .o and put them here */

@@ -19,6 +19,12 @@ void led_g_off(void){
     GPIOB->BSRR = GPIO_BSRR_BR14; //reset the pin 
 }
 
+void led_g_button(void){
+    if (GPIOB->ODR & GPIO_ODR_OD14) led_g_off(); // If the led is on, turn it off
+    else led_g_on(); // If the led is off, turn it on
+}
+
+
 void led(state s){
     switch (s) {
 
