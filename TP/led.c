@@ -1,6 +1,6 @@
 #include "led.h"
 #include "CMSIS/Device/ST/STM32L4xx/Include/stm32l475xx.h"
-#include <stdint.h>
+
 
 
 //Enables the clocks. The GPIOC pin mode is set to input (off) and the GPIOB pin mode is set to output (on)
