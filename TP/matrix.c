@@ -171,6 +171,7 @@ void test_pixels2(void)
                     }
                 }
 
+
                 mat_set_row(row, row_pixels); // push this row to the matrix
 
                 for (volatile int d = 0; d < 600; ++d) __asm volatile ("nop"); // delay for persistence of vision
@@ -180,4 +181,28 @@ void test_pixels2(void)
     }
 }
 
+void test_image(const unsigned char *image){ //similar to the letter test function, but now the image is passed as a parameter
 
+    rgb_color row_pixels[8];
+
+    for (int frame = 0; frame < 9000; ++frame) {             // how long to show the image
+        for (int row = 0; row < 8; ++row) {                  // for each row
+            for (int col = 0; col < 8; ++col) {              // for each column in this row
+                // extract RGB from the image (position = column in the row (row*8 +col) times the number of colors plus position of the color)
+                row_pixels[col].r = image[(row*8 + col)*3 + 0]; 
+                row_pixels[col].g = image[(row*8 + col)*3 + 1]; 
+                row_pixels[col].b = image[(row*8 + col)*3 + 2];
+            }
+
+            mat_set_row(row, row_pixels);                    // push this row to the matrix
+            for (int n = 0; n < 800; ++n) __asm volatile ("nop"); //delay for persistence of vision
+            deactivate_rows(); // deactivate rows before the next iteration
+        }
+    }
+
+
+
+
+
+
+}

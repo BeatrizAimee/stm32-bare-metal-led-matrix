@@ -3,6 +3,9 @@
 typedef unsigned int size_t;
 typedef unsigned char uint8_t;
 
+#define SPEED 115200
+#define FREQ 80000000
+
 
 void uart_init();
 void uart_putchar(uint8_t c);

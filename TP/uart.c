@@ -22,8 +22,9 @@ void uart_init(){
     RCC->APB2RSTR |= RCC_APB2RSTR_USART1RST; //reset USART1
     RCC->APB2RSTR &= ~RCC_APB2RSTR_USART1RST; //release reset
 
-    //BRR = clock / baudrate = 80 000 000 Hz / 115200 bps = 694.444
-    USART1->BRR = 694u;
+    //BRR = clock / baudrate = 80 000 000 Hz / 115200 bps = 694.444. This is then rounded.
+    USART1->BRR = ((FREQ + SPEED/2) / SPEED); 
+
 
     USART1->CR1 &= ~USART_CR1_OVER8; // 0 = oversampling by 16
     USART1->CR1 &= ~(USART_CR1_M0 | USART_CR1_M1); // bits M0 and M1 00 = 8 data bits
@@ -31,7 +32,7 @@ void uart_init(){
     USART1->CR2 &= ~USART_CR2_STOP; // STOP bits 00 = 1 stop bit
 
 
-    USART1->CR1 |= USART_CR1_TE | USART_CR1_RE | USART_CR1_UE; // Enable transmitter, receiver and USART
+    USART1->CR1 = USART_CR1_TE | USART_CR1_RE | USART_CR1_UE; // Enable transmitter, receiver and USART
 
 }
 

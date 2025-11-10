@@ -3,9 +3,11 @@ PREFIX    = arm-none-eabi-
 CC        = $(PREFIX)gcc # Compiler
 AS        = $(PREFIX)as # Assembler
 GDB       = gdb-multiarch # Debugger
+OBJCOPY   = arm-none-eabi-objcopy # Convert .raw into .obj files
 
 CMSIS_DEV = CMSIS/Device/ST/STM32L4xx/Include
 CMSIS_INC = CMSIS/Include
+
 
 ASFLAGS   = -g -mcpu=cortex-m4 -mthumb # Assembler flags
 CFLAGS    = -g -O1 -ffreestanding -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 \
@@ -15,9 +17,10 @@ LDFLAGS   = -nostdlib -T ld_ram.lds # Linker flags
 # Finds all source files in the current directory
 SOURCES_C = $(wildcard *.c) # C source files
 SOURCES_S = $(wildcard *.s) # Assembly source files
+SOURCES_RAW = $(wildcard *.raw) # Raw source files
 
 # Convert source files to object files
-OBJS	  = $(SOURCES_C:.c=.o) $(SOURCES_S:.s=.o) # Object files
+OBJS	  = $(SOURCES_C:.c=.o) $(SOURCES_S:.s=.o) $(SOURCES_RAW:.raw=.o) # Object files
 CLOCKS_OBJ = clocks.o
 
 OUTPUT    = main.elf
@@ -28,6 +31,10 @@ all: $(OUTPUT)
 # Compile the files building the output
 $(OUTPUT): $(OBJS) #Output depends on object files
 	$(CC) $(LDFLAGS) $(OBJS) $(CLOCKS_OBJ) -o $@
+
+# Rule to convert .raw files to .o files
+%.o: %.raw
+	$(OBJCOPY) -I binary -O elf32-littlearm -B arm $< $@
 
 # Starts the J-Link GDB server
 connect:
