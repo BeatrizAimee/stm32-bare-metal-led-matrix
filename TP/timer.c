@@ -4,7 +4,7 @@
 #include "led.h"
 #include "CMSIS/Device/ST/STM32L4xx/Include/stm32l475xx.h"
 
-extern volatile uint8_t g_frame[BYTES];
+extern volatile rgb_color g_frame[BYTES];
 
 void timer_init(int max_us){
 
@@ -29,6 +29,7 @@ void timer_init(int max_us){
     TIM2->CR1 |= TIM_CR1_CEN; // Enables TIM2 after configuration is done
 
 }
+
 
 void TIM2_IRQHandler(void){
     TIM2->SR = 0; // Clears the update interrupt flag

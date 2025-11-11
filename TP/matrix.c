@@ -1,7 +1,6 @@
 #include "matrix.h"
 #include "CMSIS/Device/ST/STM32L4xx/Include/stm32l475xx.h"
 
-
 void matrix_init(){
 
     RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN | RCC_AHB2ENR_GPIOBEN | RCC_AHB2ENR_GPIOCEN; // Enable GPIOA, GPIOB and GPIOC clocks
@@ -38,7 +37,6 @@ void matrix_init(){
 
     RST(1); // Set RST high
 }
-
 
 // Clock pulse
 void pulse_SCK(){
@@ -79,7 +77,6 @@ void send_byte(uint8_t val) {
         pulse_SCK();
     }
 }
-
 
 void mat_set_row(int row, const rgb_color *val){
 
@@ -181,6 +178,15 @@ void test_pixels2(void)
     }
 }
 
+void display_frame(const rgb_color* g_frame){
+    for (int row = 0; row < 8; row++) {
+        mat_set_row(row, &g_frame[row * 8]); // row*8 sends the address of the first element of each row
+        for (int i = 0; i < 20000; i++) asm volatile ("nop"); // Delay
+        deactivate_rows();
+    }
+}
+
+
 void test_display(const unsigned char *scr){ //similar to the letter test function, but now the image or uart live transmission is passed as a parameter
 
     rgb_color row_pixels[8];
@@ -194,7 +200,7 @@ void test_display(const unsigned char *scr){ //similar to the letter test functi
         }
 
         mat_set_row(row, row_pixels);                    // push this row to the matrix
-        for (int n = 0; n < 800; ++n) __asm volatile ("nop"); //delay for persistence of vision
+        for (int n = 0; n < 20000; ++n) __asm volatile ("nop"); //delay for persistence of vision
         deactivate_rows(); // deactivate rows before the next iteration
     }
 }

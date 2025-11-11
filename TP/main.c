@@ -21,9 +21,7 @@ int main(){
     timer_init(1000000/60); // Refresh at 60 Hz
     
 
-    while (1){
-        // Main loop does nothing, all work is done in interrupts
-    }
+    while (1){};
 
     return 0;
 }

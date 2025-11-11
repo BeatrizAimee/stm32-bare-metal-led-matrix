@@ -1,8 +1,6 @@
 #include "led.h"
 #include "CMSIS/Device/ST/STM32L4xx/Include/stm32l475xx.h"
 
-
-
 //Enables the clocks. The GPIOC pin mode is set to input (off) and the GPIOB pin mode is set to output (on)
 void led_init(void){
     RCC->AHB2ENR |= RCC_AHB2ENR_GPIOBEN; // mask to enable GPIOB clock
@@ -23,7 +21,6 @@ void led_g_button(void){
     if (GPIOB->ODR & GPIO_ODR_OD14) led_g_off(); // If the led is on, turn it off
     else led_g_on(); // If the led is off, turn it on
 }
-
 
 void led(state s){
     switch (s) {

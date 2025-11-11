@@ -3,10 +3,6 @@
 typedef unsigned int size_t;
 typedef unsigned char uint8_t;
 
-
-
-
-
 void uart_init(int baudrate);
 void uart_putchar(uint8_t c);
 uint8_t uart_getchar();

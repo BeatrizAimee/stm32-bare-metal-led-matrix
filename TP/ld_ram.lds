@@ -23,21 +23,21 @@ SECTIONS
             /* Interrupt vector table */
             .isr_vector : {
                 KEEP(*(.isr_vector)) /* KEEP tells the linker to keep the section even if it seems unused */
-            } > SRAM1
+            } > FLASH
             /* Program code */
             .text : {
                 *(.text*)  /*taking all .text from the .o and put them here */
-            } > SRAM1 /*placing the .text in SRAM1 (VMA) -- if we put at > [LMA] we are mapping it to the physical address space (where it is in the flash)*/
+            } > FLASH  
 
             /* Read only data */
             .rodata : {
                 *(.rodata*) /*taking all .rodata from the .o and put them here */
-            } > SRAM1 /*placing the .rodata in SRAM1 (VMA)*/
+            } > FLASH
 
             /* Initialized data */
             .data : {
                 *(.data*) /*taking all .data from the .o and put them here */
-            } > SRAM1 /*placing the .data in SRAM1 (VMA)*/
+            } > FLASH
 
             /* Uninitialized data */
             .bss : {
@@ -45,7 +45,7 @@ SECTIONS
                 *(.bss*) /*taking all .bss from the .o and put them here */
                 *(COMMON) /*taking all COMMON from the .o and put them here */
                 _bss_end = .; /*defining a label to know where the .bss ends*/
-            } > SRAM1 /*placing the .bss in SRAM1 (VMA)*/
+            } > SRAM1 /*only bss starts in ram, the rest is copied from flash*/
 
 
         }

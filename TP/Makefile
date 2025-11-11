@@ -21,7 +21,6 @@ SOURCES_RAW = $(wildcard *.raw) # Raw source files
 
 # Convert source files to object files
 OBJS	  = $(SOURCES_C:.c=.o) $(SOURCES_S:.s=.o) $(SOURCES_RAW:.raw=.o) # Object files
-CLOCKS_OBJ = clocks.o
 
 OUTPUT    = main.elf
 
@@ -30,7 +29,7 @@ all: $(OUTPUT)
 
 # Compile the files building the output
 $(OUTPUT): $(OBJS) #Output depends on object files
-	$(CC) $(LDFLAGS) $(OBJS) $(CLOCKS_OBJ) -o $@
+	$(CC) $(LDFLAGS) $(OBJS) -o $@
 
 # Rule to convert .raw files to .o files
 %.o: %.raw
@@ -46,6 +45,6 @@ startgdbserver: $(OUTPUT) #the action depends on the executable
 
 #Removes object files and the output
 clean:
-	rm -f $(filter-out $(CLOCKS_OBJ), $(OBJS)) $(OUTPUT)
+	rm -f $(OBJS) $(OUTPUT)
 
 	 
