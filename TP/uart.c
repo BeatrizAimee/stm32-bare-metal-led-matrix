@@ -82,6 +82,14 @@ void uart_gets(char *s, size_t size){
 
 
 void USART1_IRQHandler(void){
+    
+    if (USART1->ISR & (USART_ISR_FE | USART_ISR_ORE )){ //if a framing error or overrun error occurred
+        volatile uint8_t dump = (uint8_t)USART1->RDR;   // get rid off of bad byte
+        collecting_bytes = 0; //stop collecting
+        USART1->ICR = USART_ICR_FECF | USART_ICR_ORECF; //clear the error flags
+        return; //return so the byte is ignored
+
+    }
 
     uint8_t received_byte = uart_getchar(); // Read the received byte
     static int count; //how many bytes collected so far
