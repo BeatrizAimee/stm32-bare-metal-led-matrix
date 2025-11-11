@@ -22,22 +22,28 @@ SECTIONS
         {
             /* Interrupt vector table */
             .isr_vector : {
+                _start_vector = .;
                 KEEP(*(.isr_vector)) /* KEEP tells the linker to keep the section even if it seems unused */
-            } > FLASH
+                _end_vector = .;
+            } > SRAM1 AT >FLASH /*the vector table is copied from flash*/
             /* Program code */
             .text : {
+                _start_text = .;
                 *(.text*)  /*taking all .text from the .o and put them here */
-            } > FLASH  
+                _end_text = .;
+            } > SRAM1 AT >FLASH 
 
             /* Read only data */
             .rodata : {
                 *(.rodata*) /*taking all .rodata from the .o and put them here */
-            } > FLASH
+            } > FLASH /*stays in flash*/
 
             /* Initialized data */
             .data : {
+                _data_start = .; 
                 *(.data*) /*taking all .data from the .o and put them here */
-            } > FLASH
+                _end_data = .;
+            } > SRAM1 AT > FLASH 
 
             /* Uninitialized data */
             .bss : {
@@ -47,7 +53,14 @@ SECTIONS
                 _bss_end = .; /*defining a label to know where the .bss ends*/
             } > SRAM1 /*only bss starts in ram, the rest is copied from flash*/
 
+            .bootloader : {
+                *(.bootloader*) /*taking all .bootloader from the .o and put them here */
+            } > FLASH 
 
+            /* Storing load addresses in FLASH for copying */
+            _vector_load = LOADADDR(.isr_vector);
+            _text_load = LOADADDR(.text);
+            _data_load = LOADADDR(.data);
         }
 
 

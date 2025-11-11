@@ -3,6 +3,7 @@
 
 /*memcpy - copies a number of bytes from source to destination - receives the adress of the source and destination
 as well as the number of bytes to be copied in a void pointer (means that in the adress stored exists any type of data)*/
+__attribute__((section(".bootloader")))
 void* memory_copy(void* source, void* dest, unsigned int nbytes) {
 
     if (nbytes == 0 || source == dest) return dest; // if there are no bytes to copy or source and destination are the same return the pointer
@@ -19,6 +20,7 @@ void* memory_copy(void* source, void* dest, unsigned int nbytes) {
 
 /*memset - sets a number of bytes in a desired memory area to a specific value - receives the adress of the memory area,
 the value to be set and the number of bytes to be set in a void pointer*/
+__attribute__((section(".bootloader")))
 void* memory_set(void* dest, int value, unsigned int nbytes) {
     if (nbytes == 0) return dest; // if there are no bytes to set return the pointer
 
@@ -33,6 +35,7 @@ void* memory_set(void* dest, int value, unsigned int nbytes) {
 
 /*memory_compare - compares two memory areas byte by byte - receives the addresses of the two memory areas and the number 
 of bytes to be compared in void pointers*/
+__attribute__((section(".bootloader")))
 int memory_compare(const void* source, const void* dest, unsigned int nbytes) {
     if (nbytes == 0 || source == dest) return 0; // if there are no bytes to compare or source and destination are the same return 0 (equal)
     const unsigned char* c_source = (const unsigned char*)source;
@@ -53,6 +56,7 @@ int memory_compare(const void* source, const void* dest, unsigned int nbytes) {
 
 /*memory_move - moves a number of bytes from source to destination, taking in consideration cases where memory areas overlap 
 - receives the address of the source and destination as well as the number of bytes to be moved in a void pointer*/
+__attribute__((section(".bootloader")))
 void* memory_move(void* source, void* dest, unsigned int nbytes) {
     if (nbytes == 0 || source == dest) return dest; // if there are no bytes to move or source and destination are the same return the pointer
 
