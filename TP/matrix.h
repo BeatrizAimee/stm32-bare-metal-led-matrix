@@ -36,6 +36,6 @@ void test_pixels();
 void test_pixels2();
 static void show_letter(const uint8_t glyph[8], uint8_t R, uint8_t G, uint8_t B);
 
-void test_image(const unsigned char *buffer);
+void test_display(const unsigned char *scr);
 
 #endif

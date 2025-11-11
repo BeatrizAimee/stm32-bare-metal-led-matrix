@@ -1,8 +1,10 @@
 #include "CMSIS/Device/ST/STM32L4xx/Include/stm32l475xx.h"
 #include "uart.h"
 
+extern volatile uint8_t g_frame[BYTES];
+static char collecting_bytes = 0; // 0 = waiting for sync byte (0xFF), 1 = collecting
 
-void uart_init(){
+void uart_init(int baudrate){
 
     USART1->CR1 &= ~USART_CR1_UE; // (UE (USART enable)=0) to configure USART1
 
@@ -22,8 +24,8 @@ void uart_init(){
     RCC->APB2RSTR |= RCC_APB2RSTR_USART1RST; //reset USART1
     RCC->APB2RSTR &= ~RCC_APB2RSTR_USART1RST; //release reset
 
-    //BRR = clock / baudrate = 80 000 000 Hz / 115200 bps = 694.444. This is then rounded.
-    USART1->BRR = ((FREQ + SPEED/2) / SPEED); 
+    //BNumber is rounded rounded.
+    USART1->BRR = ((FREQ + baudrate/2) / baudrate);
 
 
     USART1->CR1 &= ~USART_CR1_OVER8; // 0 = oversampling by 16
@@ -32,7 +34,9 @@ void uart_init(){
     USART1->CR2 &= ~USART_CR2_STOP; // STOP bits 00 = 1 stop bit
 
 
-    USART1->CR1 = USART_CR1_TE | USART_CR1_RE | USART_CR1_UE; // Enable transmitter, receiver and USART
+    USART1->CR1 = USART_CR1_TE | USART_CR1_RE | USART_CR1_UE | USART_CR1_RXNEIE; // Enable transmitter, receiver, USART and RXNE interrupt
+
+    NVIC_EnableIRQ(USART1_IRQn);
 
 }
 
@@ -75,3 +79,26 @@ void uart_gets(char *s, size_t size){
     }
     *s='\0';
 }
+
+
+void USART1_IRQHandler(void){
+
+    uint8_t received_byte = uart_getchar(); // Read the received byte
+    static int count; //how many bytes collected so far
+
+    if (received_byte == 0xFF){ //begining of frame, sync byte received
+        count = 0; //reset count
+        collecting_bytes = 1; //start collecting bytes
+        return; //ignore any other byte until sync byte is received again
+    }
+        
+    if (collecting_bytes){ 
+
+        g_frame[count] = received_byte; //store received byte in the frame buffer
+        count++;
+
+        if (count == BYTES){ //frame complete
+        collecting_bytes = 0; //stop collecting
+        }
+    }
+}    

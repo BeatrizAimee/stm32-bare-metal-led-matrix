@@ -1,5 +1,5 @@
 
-
+#include "memfuncs.h"
 
 /*memcpy - copies a number of bytes from source to destination - receives the adress of the source and destination
 as well as the number of bytes to be copied in a void pointer (means that in the adress stored exists any type of data)*/

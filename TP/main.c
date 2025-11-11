@@ -3,17 +3,25 @@
 #include "led.h"
 #include "matrix.h"
 #include "button.h"
+#include "uart.h"
 
-extern const uint8_t  _binary_image_raw_start[];
+
+volatile rgb_color g_frame[BYTES];  
 
 
-void main(){   
+int main(){   
+
     clocks_init();
+    uart_init(38400);
     led_init();
     matrix_init();
     irq_init();
     button_init();
+    
 
+    while (1){
+        test_display((const unsigned char*)g_frame);
+    }
 
-    test_image(_binary_image_raw_start); //See if the press of the button doesn't interfere with the matrix display
+    return 0;
 }
