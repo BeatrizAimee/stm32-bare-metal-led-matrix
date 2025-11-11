@@ -4,6 +4,7 @@
 #include "matrix.h"
 #include "button.h"
 #include "uart.h"
+#include "timer.h"
 
 
 volatile rgb_color g_frame[BYTES];  
@@ -17,10 +18,11 @@ int main(){
     matrix_init();
     irq_init();
     button_init();
+    timer_init(1000000/60); // Refresh at 60 Hz
     
 
     while (1){
-        test_display((const unsigned char*)g_frame);
+        // Main loop does nothing, all work is done in interrupts
     }
 
     return 0;
