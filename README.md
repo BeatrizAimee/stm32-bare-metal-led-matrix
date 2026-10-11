@@ -124,7 +124,7 @@ Configure the serial device at the same baud rate as the firmware:
 
 ```bash
 cd TP
-./stty.sh
+sh stty.sh
 ```
 
 Then send a bundled frame sequence to the board:
