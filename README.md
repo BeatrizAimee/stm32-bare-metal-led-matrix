@@ -29,7 +29,8 @@ one frame and a complete sequence of frames respectively.
 
 ## UART frame format
 
-Each display frame has 192 bytes:
+Each UART packet has 193 bytes: a one-byte synchronization marker followed by a
+192-byte display frame.
 
 ```text
 0xFF | 64 RGB pixels
