@@ -20,7 +20,21 @@ an OS, C standard library, vendor HAL or RTOS.
 ## Repository layout
 
 - [`TP/`](TP) — STM32 firmware, build files, linker script and debug configuration
-- [`exercices/`](exercices) — exercises on assembly, compilation and Make
+- [`exercices/`](exercices) — preparatory exercises in assembly, compilation and Make
+
+## Preparatory exercises
+
+- [`assembleur/`](exercices/assembleur) — ARMv7E-M routines for memory
+  initialization, block copying and null-terminated string copying; built and debugged
+  on the STM32 through J-Link/GDB.
+- [`compilation/ex1/`](exercices/compilation/ex1) — C experiment mapping the
+  `.text`, `.rodata`, `.data`, `.bss`, heap and stack regions of a Linux process.
+- [`compilation/ex2/`](exercices/compilation/ex2) — ARM object-file analysis across
+  `-O0`, `-O1`, `-O2` and `-Os`, including the effects of array and pointer
+  declarations on generated sections. The [report](exercices/compilation/ex2/ex2.md)
+  contains the observations.
+- [`make/`](exercices/make) — a multi-file C build using explicit targets,
+  dependencies, pattern rules, target-specific flags and a separate library directory.
 
 ## Build
 
