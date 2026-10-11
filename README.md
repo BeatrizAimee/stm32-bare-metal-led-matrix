@@ -1,6 +1,12 @@
 # STM32 Bare-Metal LED Matrix
 
-Bare-metal firmware for driving an 8×8 RGB LED matrix with an STM32L475VG (Cortex-M4). The project uses C and ARM assembly with direct peripheral register access through CMSIS definitions—without an RTOS or vendor HAL.
+My implementation for the bare-metal programming lab of Télécom Paris's
+4SE03 course (formerly SE203). It targets an STM32L475VG (Cortex-M4) and drives
+an 8×8 RGB LED matrix.
+
+The lab's goal is to build a program progressively from a minimal environment:
+cross-compilation, direct peripheral access, startup code and debugging, without
+an OS, C standard library, vendor HAL or RTOS.
 
 ## Highlights
 
